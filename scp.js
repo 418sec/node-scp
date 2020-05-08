@@ -2,7 +2,7 @@
  * node-scp
  * <cam@onswipe.com>
  */
-var exec = require('child_process').exec;
+var execFile = require('child_process').execFile;
 
 var scp = module.exports = {};
 
@@ -41,7 +41,9 @@ scp.get = function (options, cb) {
     (options.user == undefined ? '' : options.user+'@') + options.host + ':' + options.file,
     options.path
   ];
-  exec(command.join(' '), function (err, stdout, stderr) {
+  var cmdFile = command[0];
+  command.shift();
+  execFile(cmdFile, [command], function (err, stdout, stderr) {
     if (cb) {
       cb(err, stdout, stderr);
     } else {
