@@ -11,7 +11,6 @@ var scp = module.exports = {};
  */
 scp.send = function (options, cb) {
   var command = [
-    'scp',
     '-r',
     '-P',
     (options.port == undefined ? '22' : options.port),
@@ -19,7 +18,7 @@ scp.send = function (options, cb) {
     options.file,
     (options.user == undefined ? '' : options.user+'@') + options.host + ':' + options.path,
   ];
-  exec(command.join(' '), function (err, stdout, stderr) {
+  execFile('scp', [command], function (err, stdout, stderr) {
     if (cb) {
       cb(err, stdout, stderr);
     } else {
@@ -33,7 +32,6 @@ scp.send = function (options, cb) {
  */
 scp.get = function (options, cb) {
   var command = [
-    'scp',
     '-r',
     '-P',
     (options.port == undefined ? '22' : options.port),
@@ -41,9 +39,7 @@ scp.get = function (options, cb) {
     (options.user == undefined ? '' : options.user+'@') + options.host + ':' + options.file,
     options.path
   ];
-  var cmdFile = command[0];
-  command.shift();
-  execFile(cmdFile, [command], function (err, stdout, stderr) {
+  execFile('scp', [command], function (err, stdout, stderr) {
     if (cb) {
       cb(err, stdout, stderr);
     } else {
