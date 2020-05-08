@@ -39,7 +39,7 @@ scp.get = function (options, cb) {
     (options.user == undefined ? '' : options.user+'@') + options.host + ':' + options.file,
     options.path
   ];
-  execFile('scp', [command], function (err, stdout, stderr) {
+  execFile('scp', command, function (err, stdout, stderr) {
     if (cb) {
       cb(err, stdout, stderr);
     } else {
